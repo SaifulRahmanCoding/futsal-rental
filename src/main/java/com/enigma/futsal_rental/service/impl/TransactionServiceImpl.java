@@ -41,19 +41,17 @@ public class TransactionServiceImpl implements TransactionService {
         Pageable pageable = org.springframework.data.domain.PageRequest.of((request.getPage() - 1), request.getSize(), sort);
         Page<Transaction> transactionPage = transactionRepository.getAll(pageable);
         List<TransactionResponse> transactionResponses = transactionPage.getContent().stream().map(
-                trx -> {
-                    return TransactionResponse.builder()
-                            .id(trx.getIdTrx())
-                            .fieldId(trx.getField().getId())
-                            .teamName(trx.getTeamName())
-                            .customerName(trx.getCustomerName())
-                            .phone(trx.getPhone())
-                            .startTime(trx.getStartTime().toString())
-                            .endTime(trx.getEndTime().toString())
-                            .price(trx.getPrice())
-                            .status(trx.getStatus())
-                            .build();
-                }).toList();
+                trx -> TransactionResponse.builder()
+                        .id(trx.getIdTrx())
+                        .fieldId(trx.getField().getId())
+                        .teamName(trx.getTeamName())
+                        .customerName(trx.getCustomerName())
+                        .phone(trx.getPhone())
+                        .startTime(trx.getStartTime().toString())
+                        .endTime(trx.getEndTime().toString())
+                        .price(trx.getPrice())
+                        .status(trx.getStatus())
+                        .build()).toList();
         return new PageImpl<>(transactionResponses, pageable, transactionPage.getTotalElements());
     }
 
@@ -67,16 +65,14 @@ public class TransactionServiceImpl implements TransactionService {
         String[] date = timestamp.split(" ");
         Page<Transaction> schedule = transactionRepository.getSchedule(DateUtil.parseDate(date[0], "yyyy-MM-dd"), pageable);
         List<TransactionScheduleResponse> transactionScheduleResponses = schedule.getContent().stream().map(
-                s -> {
-                    return TransactionScheduleResponse.builder()
-                            .teamName(s.getTeamName())
-                            .fieldType(s.getField().getType())
-                            .customerName(s.getCustomerName())
-                            .startTime(s.getStartTime().toString())
-                            .endTime(s.getEndTime().toString())
-                            .status(s.getStatus())
-                            .build();
-                }).toList();
+                s -> TransactionScheduleResponse.builder()
+                        .teamName(s.getTeamName())
+                        .fieldType(s.getField().getType())
+                        .customerName(s.getCustomerName())
+                        .startTime(s.getStartTime().toString())
+                        .endTime(s.getEndTime().toString())
+                        .status(s.getStatus())
+                        .build()).toList();
         return new PageImpl<>(transactionScheduleResponses, pageable, schedule.getTotalElements());
     }
 
@@ -140,6 +136,14 @@ public class TransactionServiceImpl implements TransactionService {
     public void updateStatus(UpdateTransactionStatusRequest request) {
         getById(request.getIdTrx());
         transactionRepository.updateStatus(request.getIdTrx(), request.getStatus());
+    }
+
+    @Override
+    public void updateStatusReserve() {
+        List<Transaction> allReserved = transactionRepository.getAllReservedStatus(new Timestamp(System.currentTimeMillis()));
+        for (Transaction trx : allReserved) {
+            transactionRepository.updateStatus(trx.getIdTrx(), "done");
+        }
     }
 
     @Transactional(readOnly = true)

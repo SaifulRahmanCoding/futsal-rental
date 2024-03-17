@@ -15,6 +15,7 @@ public interface TransactionService {
     TransactionResponse save(TransactionRequest request);
     void updateTime(UpdateTransactionTimeRequest request);
     void updateStatus(UpdateTransactionStatusRequest request);
+    void updateStatusReserve();
 
     TransactionResponse getOneById(String id);
     Transaction getById(String id);

@@ -47,6 +47,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Query(value = "SELECT * FROM t_transaction WHERE status = 'reserved'", nativeQuery = true)
     List<Transaction> getAllReserved();
 
+    @Query(value = "SELECT * FROM t_transaction WHERE status = 'reserved' AND end_time < :now", nativeQuery = true)
+    List<Transaction> getAllReservedStatus(Date now);
+
     @Query(value = "SELECT * FROM t_transaction WHERE id_trx = :id", nativeQuery = true)
     Optional<Transaction> getTrxById(String id);
 
