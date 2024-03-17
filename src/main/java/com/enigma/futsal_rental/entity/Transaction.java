@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+
 @Setter
 @Getter
 @Entity
@@ -14,12 +15,14 @@ import java.util.Date;
 @Table(name = ConstantTable.TRANSACTION)
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;
+
+    @Column(name = "team_name")
+    private String teamName;
 
     @Column(name = "customer_name")
     private String customerName;

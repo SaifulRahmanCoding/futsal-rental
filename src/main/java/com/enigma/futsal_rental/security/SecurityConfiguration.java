@@ -26,8 +26,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/fields").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/transactions").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/transactions/**").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }

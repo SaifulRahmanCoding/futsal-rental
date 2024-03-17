@@ -13,7 +13,6 @@ import lombok.*;
 @Table(name = ConstantTable.USER_ACCOUNT)
 public class UserAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "username", nullable = false)
@@ -21,4 +20,7 @@ public class UserAccount {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role",nullable = false)
+    private String role;
 }

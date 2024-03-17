@@ -13,7 +13,6 @@ import lombok.*;
 @Table(name = ConstantTable.FIELD)
 public class Field {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "type",nullable = false)

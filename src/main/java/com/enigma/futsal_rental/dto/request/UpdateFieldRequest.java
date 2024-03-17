@@ -7,7 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FieldRequest {
+public class UpdateFieldRequest {
+    private String id;
     private String type;
     private Long price;
 }
