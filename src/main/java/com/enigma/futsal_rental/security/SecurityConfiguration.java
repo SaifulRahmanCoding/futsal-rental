@@ -21,6 +21,7 @@ public class SecurityConfiguration {
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthenticationEntryPointImpl authenticationEntryPoint;
     private final AuthenticationFilter authenticationFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.
@@ -36,6 +37,18 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/fields").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/fields/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/transactions/**").permitAll()
+                        .requestMatchers(
+                                "/v2/api-docs",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/configuration/ui",
+                                "/configuration/security",
+                                "/swagger-ui/**",
+                                "/webjars/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
