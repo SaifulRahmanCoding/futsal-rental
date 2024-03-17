@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/fields").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/fields/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/transactions/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

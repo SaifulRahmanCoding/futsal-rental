@@ -15,7 +15,8 @@ import java.util.Date;
 @Table(name = ConstantTable.TRANSACTION)
 public class Transaction {
     @Id
-    private String id;
+    @Column(name = "id_trx")
+    private String idTrx;
 
     @ManyToOne
     @JoinColumn(name = "field_id")
@@ -32,13 +33,13 @@ public class Transaction {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_time")
-    private Date start_time;
+    private Date startTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_time")
-    private Date end_time;
+    private Date endTime;
 
-    @Column(name = "price")
+    @Column(name = "total_price")
     private Long price;
 
     @Column(name = "status")

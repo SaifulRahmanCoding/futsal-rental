@@ -1,20 +1,22 @@
-package com.enigma.futsal_rental.dto.response;
+package com.enigma.futsal_rental.dto.request;
 
 import lombok.*;
 
-@Getter
+import java.util.Date;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionResponse {
-    private String id;
+public class SaveTransactionRequest {
+    private String idTrx;
     private String fieldId;
     private String teamName;
     private String customerName;
     private String phone;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
     private Long price;
     private String status;
 }

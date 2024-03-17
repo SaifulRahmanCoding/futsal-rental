@@ -33,6 +33,7 @@ public class FieldServiceImpl implements FieldService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public FieldResponse update(UpdateFieldRequest request) {
         fieldRepository.updateField(Field.builder().id(request.getId()).type(request.getType()).price(request.getPrice()).build());
@@ -44,11 +45,13 @@ public class FieldServiceImpl implements FieldService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String id) {
         fieldRepository.deleteField(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<FieldResponse> getAll() {
         List<Field> fields = fieldRepository.getAll();
@@ -61,6 +64,7 @@ public class FieldServiceImpl implements FieldService {
         }).toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public FieldResponse getByOneId(String id) {
         Field field = findByIdOrThrowNotFound(id);

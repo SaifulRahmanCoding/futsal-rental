@@ -7,14 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionResponse {
-    private String id;
-    private String fieldId;
+public class TransactionScheduleResponse {
     private String teamName;
+    private String fieldType;
     private String customerName;
-    private String phone;
     private String startTime;
     private String endTime;
-    private Long price;
     private String status;
 }
