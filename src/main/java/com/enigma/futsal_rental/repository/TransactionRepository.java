@@ -55,4 +55,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 
     @Query(value = "SELECT * FROM t_transaction t JOIN m_field f ON f.id = t.field_id WHERE start_time > :time", nativeQuery = true)
     Page<Transaction> getSchedule(Date time, Pageable pageable);
+
+    @Query(value = "SELECT * FROM t_transaction WHERE start_time BETWEEN :start_date AND :end_date AND status = :status", nativeQuery = true)
+    List<Transaction> getAllToExport(Date start_date, Date end_date, String status);
 }

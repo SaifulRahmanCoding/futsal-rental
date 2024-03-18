@@ -30,10 +30,4 @@ public class UserServiceImpl implements UserService {
     public UserAccount getByUserId(String id) {
         return userAccountRepository.findAccountById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
     }
-
-    @Override
-    public UserAccount getByContext() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userAccountRepository.findByUsername(authentication.getPrincipal().toString()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
-    }
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -144,6 +145,13 @@ public class TransactionServiceImpl implements TransactionService {
         for (Transaction trx : allReserved) {
             transactionRepository.updateStatus(trx.getIdTrx(), "done");
         }
+    }
+
+    @Override
+    public List<Transaction> getToExportPDF(String date) {
+        Date startDate = DateUtil.parseDate(date, "yyyy-MM-dd");
+        Timestamp endDate = new Timestamp(startDate.getTime() + (3600000 * 24) - 60000);
+        return transactionRepository.getAllToExport(startDate, endDate, "done");
     }
 
     @Transactional(readOnly = true)

@@ -9,6 +9,8 @@ import com.enigma.futsal_rental.dto.response.TransactionScheduleResponse;
 import com.enigma.futsal_rental.entity.Transaction;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface TransactionService {
     Page<TransactionResponse> getAll(PageRequest request);
     Page<TransactionScheduleResponse> getSchedule(PageRequest request);
@@ -16,7 +18,7 @@ public interface TransactionService {
     void updateTime(UpdateTransactionTimeRequest request);
     void updateStatus(UpdateTransactionStatusRequest request);
     void updateStatusReserve();
-
+    List<Transaction> getToExportPDF(String date);
     TransactionResponse getOneById(String id);
     Transaction getById(String id);
 }

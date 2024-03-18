@@ -10,13 +10,21 @@ import com.enigma.futsal_rental.dto.response.CommonResponse;
 import com.enigma.futsal_rental.dto.response.PagingResponse;
 import com.enigma.futsal_rental.dto.response.TransactionResponse;
 import com.enigma.futsal_rental.dto.response.TransactionScheduleResponse;
+import com.enigma.futsal_rental.entity.Transaction;
 import com.enigma.futsal_rental.service.TransactionService;
+import com.enigma.futsal_rental.util.PDFGenerator;
+import com.lowagie.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -127,5 +135,23 @@ public class TransactionController {
                 .message(ResponseMessage.SUCCESS_UPDATE_DATA)
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pdf/export")
+    public void generatePdf(HttpServletResponse response
+            , @RequestParam(name = "date") String date
+    ) throws DocumentException, IOException {
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerkey = "Content-Disposition";
+        String headervalue = "attachment; filename=report_" + currentDateTime + ".pdf";
+        response.setHeader(headerkey, headervalue);
+
+        List<Transaction> transactions = transactionService.getToExportPDF(date);
+
+        PDFGenerator generator = new PDFGenerator(transactions, date);
+        generator.generate(response);
     }
 }
